@@ -1,19 +1,41 @@
-// Login.jsx
+
+import axios from 'axios';
 import React, { useState } from 'react';
 
 const Login = () => {
   const[email,setEmail] = useState("");
   const[password, setPassword] = useState("");
 
-  const respond = (event)=>{
-    event.preventDefault();
-    console.log(email);
-    console.log(password);
-    console.log(role);
+const handleRegistration = async (event) =>{
+  event.preventDefault();
+// fire request to the server using axios
+const URL = "http://localhost:8080/api/v1/login";
+const body = {
+email : email,
+password : password
 }
 
+const header = {
+headers: {
+  "Content-Type": "application/json"
+},
+withCredentials : true
+}
+try{
+const response = await axios.post(URL,body,header);
+console.log(response);
+}
+catch(error){
+console.log(error);
+}
+};
+
   return (
-    <div className="max-w-md mx-auto m-4 p-6 bg-white rounded-md shadow-md">
+    <div>
+    <div className="max-w-md mx-auto m-9 p-9 bg-white rounded-md shadow-md">
+        <div>
+            <img src="" alt="" />
+        </div>
       <h2 className="text-2xl font-semibold mb-4">Login</h2>
         <div className="mb-4">
           <label htmlFor="email" className="block text-sm font-medium text-gray-600">
@@ -45,10 +67,11 @@ const Login = () => {
           />
         </div>
 
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">
+        <button onClick={handleRegistration} type="submit" className="bg-blue-500 text-white p-2 rounded-md">
           Login
         </button>
    
+    </div>
     </div>
   )
 }

@@ -1,18 +1,46 @@
-// Register.jsx
+
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const Register = ({role}) => {
+    
     const[email,setEmail] = useState("");
     const[password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-    const respond = (event)=>{
+    const handleRegistration = async (event) =>{
         event.preventDefault();
-        console.log(email);
-        console.log(password);
-        console.log(role);
-    }
-  
+// fire request to the server using axios
+const URL = "http://localhost:8080/api/v1/users/register";
+const body = {
+    email: email,
+    password: password,
+    userRole: role,
+};
 
+const header = {
+    headers: {
+        "Content-Type": "application/json"
+    },
+    withCredentials : true
+}
+try{
+const response = await axios.post(URL,body,header);
+console.log(email);
+console.log(response);
+if(response.status == 202){
+    navigate("/verify-otp")
+    const emailsession = sessionStorage.setItem("email",email);
+}
+
+}
+catch(error){
+console.log(error);
+}
+
+    };
   return (
     <div className="max-w-md mx-auto m-4 p-6 bg-white rounded-md shadow-md">
       <h2 className="text-2xl font-semibold mb-4">Register</h2>
@@ -46,8 +74,7 @@ const Register = ({role}) => {
             required
           />
         </div>
-
-        <button onClick={respond} type="submit" className="bg-blue-500 text-white p-2 rounded-md">
+        <button onClick={handleRegistration} type="submit" className="bg-blue-500 text-white p-2 rounded-md">
           Register
         </button>
  

@@ -39,7 +39,7 @@ const allRoutes = () => {
  { navs.map((nav,i) => {
     if(user.isAuthenticated) {
       if(nav.isVisibleAfterAuth){
-      if(nav.role === user.yrole || nav.role=== "ALL"){
+      if(nav.role === user.role || nav.role=== "ALL"){
         console.log(nav);
         return <Route key={i} path={nav.path} element={nav.element}/>
       }
